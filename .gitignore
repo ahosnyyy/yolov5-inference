@@ -37,8 +37,6 @@ runs/
 weights/
 
 # Project specific
-output/
-input/*
 !input/.gitkeep
 models/*
 !models/.gitkeep
