@@ -3,6 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: yolov5-inference:latest
+    container_name: yolov5-inference
+    restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
