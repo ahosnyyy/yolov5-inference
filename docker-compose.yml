@@ -14,3 +14,5 @@ services:
       - ./clo_processor.py:/app/clo_processor.py
     environment:
       - PYTHONUNBUFFERED=1
+
+    restart: unless-stopped
