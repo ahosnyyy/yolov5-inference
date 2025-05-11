@@ -11,6 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Python dependencies
 COPY requirements.txt .
+
+# Install NumPy explicitly first to ensure it's available
+RUN pip install --no-cache-dir numpy>=1.18.5
+
+# Then install the rest of the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Clone YOLOv5 repository
