@@ -1,0 +1,34 @@
+# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
+path: ../datasets  # dataset root dir
+train:
+  - deepfashion2/images/train
+  - fashionpedia/images/train   # train images (relative to 'path')
+val: 
+  - deepfashion2/images/val
+  - fashionpedia/images/val  # val images (relative to 'path')
+test:
+  - deepfashion2/images/test
+  - fashionpedia/images/test
+
+# Classes
+names:
+  0: short sleeve top
+  1: long sleeve top
+  2: short sleeve outwear
+  3: long sleeve outwear # cardigan, jacket, coat                     
+  4: vest
+  5: sweater
+  6: shorts
+  7: pants
+  8: skirt
+  9: short sleeve dress
+  10: long sleeve dress
+  11: vest dress
+  12: sling dress
+  13: jumpsuit
+  14: cape
+  15: glasses
+  16: hat
+  17: glove
+  18: scarf
+  19: hood

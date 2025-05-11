@@ -1,0 +1,29 @@
+# CLO value mapping for clothing items
+# CLO is a measure of thermal insulation provided by clothing
+# Values are approximate and can be customized
+
+clo_values:
+  short sleeve top: 0.17  # Short-sleeve knit sport shirt
+  long sleeve top: 0.25   # Long-sleeve dress shirt
+  short sleeve outwear: 0.36  # Single-breasted jacket (thin)
+  long sleeve outwear: 0.44   # Single-breasted jacket (thick)
+  vest: 0.13  # Sleeveless vest (thin)
+  sweater: 0.34  # Long-sleeve sweatshirt
+  shorts: 0.06  # Short shorts
+  pants: 0.24  # Straight trousers (thick)
+  skirt: 0.14  # Skirt (thin)
+  short sleeve dress: 0.29  # Short-sleeve shirtdress (thin)
+  long sleeve dress: 0.47  # Long-sleeve shirtdress (thick)
+  vest dress: 0.27  # Sleeveless, scoop neck (thick)
+  sling dress: 0.23  # Sleeveless, scoop neck (thin)
+  jumpsuit: 0.49  # Coveralls
+  cape: 0.36  # Estimated similar to thick jacket
+  glasses: 0.00  # No thermal insulation
+  hat: 0.03  # Estimated
+  glove: 0.05  # Estimated
+  scarf: 0.03  # Estimated
+  hood: 0.03  # Estimated
+
+
+# Base CLO value for a nude person
+base_clo: 0.0
