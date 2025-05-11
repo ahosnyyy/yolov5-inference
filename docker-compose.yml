@@ -1,11 +1,6 @@
 services:
-  yolov5-inference:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: yolov5-inference:latest
-    container_name: yolov5-inference
-    restart: unless-stopped
+  app:
+    build: .
     ports:
       - "8000:8000"
     volumes:
@@ -15,5 +10,3 @@ services:
       - ./merged_clothing.yaml:/app/merged_clothing.yaml
       - ./clo_values.yaml:/app/clo_values.yaml
       - ./clo_processor.py:/app/clo_processor.py
-    environment:
-      - PYTHONUNBUFFERED=1
