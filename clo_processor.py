@@ -49,6 +49,7 @@ def get_base_clo_value(yaml_file: str = 'clo_values.yaml') -> float:
 def map_detections_to_clo(detections: List[Any], yaml_file: str = 'clo_values.yaml') -> Tuple[List[Any], float]:
     """
     Maps detected clothing items to their CLO values and calculates total CLO.
+    If no lower body item is detected, adds a default pants CLO value.
     
     Args:
         detections: List of DetectionResult objects
@@ -61,9 +62,19 @@ def map_detections_to_clo(detections: List[Any], yaml_file: str = 'clo_values.ya
     base_clo = get_base_clo_value(yaml_file)
     total_clo = 0.0
     
+    # Define lower body items
+    lower_body_items = ['pants', 'shorts', 'skirt']
+    
+    # Track if we've found a lower body item
+    found_lower_body = False
+    
     for detection in detections:
         # Convert class name to lowercase for case-insensitive matching
         class_name_lower = detection.class_name.lower()
+        
+        # Check if this is a lower body item
+        if class_name_lower in lower_body_items:
+            found_lower_body = True
         
         # Assign CLO value if class is in our mapping
         if class_name_lower in clo_mapping:
@@ -71,6 +82,15 @@ def map_detections_to_clo(detections: List[Any], yaml_file: str = 'clo_values.ya
             total_clo += detection.clo_value
         else:
             detection.clo_value = 0.0
+    
+    # If no lower body item was detected, add default pants CLO value
+    if not found_lower_body and 'pants' in clo_mapping:
+        # Add pants CLO value to total
+        pants_clo = clo_mapping['pants']
+        total_clo += pants_clo
+        
+        # Add a note about this in the console for debugging
+        print(f"No lower body item detected, adding default pants CLO value: {pants_clo}")
     
     # Add base CLO value
     total_clo += base_clo
