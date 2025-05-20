@@ -2,7 +2,7 @@
 
 REPO_URL="https://ahosny_@bitbucket.org/mahlecomfort/yolov5-inference.git"
 REPO_DIR="yolov5-inference"
-HEALTHCHECK_URL="http://localhost:8000/"
+HEALTHCHECK_URL="http://localhost:7410/"
 MAX_RETRIES=10
 SLEEP_INTERVAL=5
 
