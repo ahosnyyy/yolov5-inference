@@ -19,7 +19,7 @@ cd "$REPO_DIR" || { echo "Failed to cd into $REPO_DIR"; exit 1; }
 
 # Build and start containers
 echo "Running docker-compose up --build -d ..."
-docker-compose up --build -d
+sudo docker-compose up --build -d
 
 # Health check loop
 echo "Checking health at $HEALTHCHECK_URL ..."
