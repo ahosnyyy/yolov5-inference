@@ -1,35 +1,50 @@
 #!/bin/bash
 
 CONTAINER_NAME="yolov5-inference-yolov5-inference-1"
-HEALTHCHECK_URL="http://localhost:8000/health"  # Adjust if needed
-MAX_RETRIES=5
-SLEEP_INTERVAL=3
+HEALTHCHECK_URL="http://localhost:8001/"  # Adjust if needed
+MAX_RETRIES=10
+SLEEP_INTERVAL=5
 
-# Stop the container if running
+function health_check() {
+  retries=0
+  while [ $retries -lt $MAX_RETRIES ]; do
+    if curl -fs $HEALTHCHECK_URL > /dev/null; then
+      echo "✅ Health check passed!"
+      return 0
+    else
+      echo "❌ Health check failed. Retrying in $SLEEP_INTERVAL seconds..."
+      sleep $SLEEP_INTERVAL
+      retries=$((retries+1))
+    fi
+  done
+  return 1
+}
+
+# Check if container is running
 if sudo docker ps -q -f name=^/${CONTAINER_NAME}$ | grep -q .; then
-  echo "Stopping container $CONTAINER_NAME ..."
-  sudo docker stop $CONTAINER_NAME
+  echo "Container $CONTAINER_NAME is already running."
 else
-  echo "Container $CONTAINER_NAME is not running."
+  echo "Container $CONTAINER_NAME is not running. Starting..."
+  sudo docker start $CONTAINER_NAME
 fi
 
-# Start the container
-echo "Starting container $CONTAINER_NAME ..."
+# First health check attempt
+echo "🔍 Running first health check..."
+if health_check; then
+  exit 0
+fi
+
+# Restart container and try health check again
+echo "🔁 Health check failed after $MAX_RETRIES attempts."
+echo "🔄 Restarting container $CONTAINER_NAME ..."
+sudo docker stop $CONTAINER_NAME
 sudo docker start $CONTAINER_NAME
 
-# Health check loop
-echo "Checking health of $CONTAINER_NAME at $HEALTHCHECK_URL ..."
-retries=0
-while [ $retries -lt $MAX_RETRIES ]; do
-  if curl -fs $HEALTHCHECK_URL > /dev/null; then
-    echo "Health check passed!"
-    exit 0
-  else
-    echo "Health check failed. Retrying in $SLEEP_INTERVAL seconds..."
-    sleep $SLEEP_INTERVAL
-    retries=$((retries+1))
-  fi
-done
-
-echo "Health check failed after $MAX_RETRIES attempts."
-exit 1
+# Second health check attempt
+echo "🔍 Running second health check after restart..."
+if health_check; then
+  exit 0
+else
+  echo "❌ Health check still failing after restart."
+  exit 1
+fi
